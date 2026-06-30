@@ -172,7 +172,7 @@ class State:
         for coli in range(len(self.cards)):
             col = self.cards[coli]
             if len(col) == 0:
-                a_spaces.append((coli, len(col) - 1))
+                a_spaces.append((coli, len(col)))
             elif (card.is_suit_card() and col[-1].is_suit_card() and
                   card.suit == col[-1].suit):
                 a_spaces.append((coli, len(col) - 1))
@@ -296,6 +296,7 @@ class Game:
         path = [visited[found_state]]
         while visited[path[-1][0]] is not None:
             path.append(visited[path[-1][0]])
+        path.reverse()
         return path, states_explored
 
 
@@ -306,10 +307,10 @@ if __name__ == "__main__":
             json_content = json.load(open(f"saves/{json_name}"))
             state = State.from_str(json_content)
             game = Game(state)
-            print("DFS")
-            res = game.DFS()
-            print(f"path len = {len(res[0])}")
-            print(f"explored = {res[1]}")
+            # print("DFS")
+            # res = game.DFS()
+            # print(f"path len = {len(res[0])}")
+            # print(f"explored = {res[1]}")
             print("Priority Queue")
             res = game.priority_queue()
             print(f"path len = {len(res[0])}")
