@@ -17,8 +17,10 @@ rows = 4
 
 templates = {}
 
-for f in os.listdir("templates"):
-    templates[f.replace(".png", "")] = cv2.imread(f"templates/{f}", cv2.IMREAD_COLOR)
+template_dir = "./templates" if os.path.exists("./templates") else "./proletariat/templates/"
+
+for f in os.listdir(template_dir):
+    templates[f.replace(".png", "")] = cv2.imread(f"{template_dir}/{f}", cv2.IMREAD_COLOR)
 
 
 def match_region(sub_img) -> str:

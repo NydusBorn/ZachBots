@@ -56,6 +56,16 @@ def play_game():
             pyautogui.moveTo(detection.left_edge + hor_offset + action[2] * detection.space_between_columns, detection.top_edge + ver_offset + action[3] * detection.space_between_rows)
         pyautogui.mouseUp()
 
+def loop():
+    start_game()
+    play_game()
+
+def full_loop():
+    enter_game()
+    start_game()
+    play_game()
+    exit_game()
+
 if __name__ == "__main__":
-    keyboard.add_hotkey("ctrl+;", play_game)
+    keyboard.add_hotkey("ctrl+;", loop)
     keyboard.wait("ctrl+q")
