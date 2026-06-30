@@ -3,7 +3,7 @@ from operator import and_
 
 import numpy as np
 import json
-
+import heapq
 
 class Card:
     def __init__(self, suit: str | None = None, rank: int | None = None):
@@ -110,6 +110,26 @@ class State:
                      any(col[rowi].rank - 1 != col[rowi + 1].rank for rowi in range(4)))):
                 return False
         return True
+    
+    def win_estimate(self):
+        counter = 0
+        if self.space is not None:
+            counter -= 1
+        for col in self.cards:
+            if len(col) not in [0, 4, 5]:
+                counter -= 1
+            elif (len(col) == 4 and
+                    (any(card.is_rank_card() for card in col) or
+                     any(card.suit != col[0].suit for card in col))):
+                counter -= 1
+            elif (len(col) == 5 and
+                    (any(card.is_suit_card() for card in col) or
+                     any(col[rowi].rank - 1 != col[rowi + 1].rank for rowi in range(4)))):
+                counter -= 1
+        return counter
+    
+    def __lt__(self, other: State):
+        return self.win_estimate() > other.win_estimate()
 
     def find_movable_cards(self) -> list[tuple[int, int]]:
         # returns col index and row index
@@ -134,11 +154,9 @@ class State:
                       col[rowi].rank - 1 == col[rowi + 1].rank and
                       col[rowi].suit != col[rowi + 1].suit):
                     movable_cards.append((coli, rowi))
-                    # movable_cards[-1] = (coli, rowi)
                 elif (col[rowi].is_suit_card() and col[rowi + 1].is_suit_card() and
                       col[rowi].suit == col[rowi + 1].suit):
                     movable_cards.append((coli, rowi))
-                    # movable_cards[-1] = (coli, rowi)
         return movable_cards
 
     def find_move_spaces(self, card_pos: tuple[int, int]) -> list[tuple[int, int]]:
@@ -189,20 +207,93 @@ class Game:
         queue: list[State] = [self.starter]
 
         states_explored = 0
-
-        while len(queue) > 0 and not queue[-1].is_win():
+        found = False
+        found_state = None
+        
+        while len(queue) > 0:
+            if found:
+                break
             state = queue.pop()
             states_explored += 1
-            # if states_explored % 1000 == 0:
-            #     print(states_explored)
-            #     print(len(queue))
             for movable in state.find_movable_cards():
+                if found:
+                    break
                 for moveto in state.find_move_spaces(movable):
+                    if found:
+                        break
                     new_state = state.perform_move(movable, moveto[0])
                     if new_state not in visited:
                         visited[new_state] = (state, (movable[0], movable[1], moveto[0], moveto[1]))
                         queue.append(new_state)
-        path = [visited[queue[-1]]]
+                        if new_state.is_win():
+                            found = True
+                            found_state = new_state
+        path = [visited[found_state]]
+        while visited[path[-1][0]] is not None:
+            path.append(visited[path[-1][0]])
+        return path, states_explored
+
+    def BFS(self):
+        # visited is a map from target state to source state and the action required to get from source to target in format from col from row to col to row
+        visited: dict[State, tuple[State, tuple[int, int, int, int]] | None] = {self.starter: None}
+        queue: list[State] = [self.starter]
+
+        states_explored = 0
+        found = False
+        found_state = None
+
+        while len(queue) > 0:
+            if found:
+                break
+            state = queue[0]
+            queue = queue[1:]
+            states_explored += 1
+            for movable in state.find_movable_cards():
+                if found:
+                    break
+                for moveto in state.find_move_spaces(movable):
+                    if found:
+                        break
+                    new_state = state.perform_move(movable, moveto[0])
+                    if new_state not in visited:
+                        visited[new_state] = (state, (movable[0], movable[1], moveto[0], moveto[1]))
+                        queue.append(new_state)
+                        if new_state.is_win():
+                            found = True
+                            found_state = new_state
+        path = [visited[found_state]]
+        while visited[path[-1][0]] is not None:
+            path.append(visited[path[-1][0]])
+        return path, states_explored
+
+    def priority_queue(self):
+        # visited is a map from target state to source state and the action required to get from source to target in format from col from row to col to row
+        visited: dict[State, tuple[State, tuple[int, int, int, int]] | None] = {self.starter: None}
+        queue: list[State] = [self.starter]
+
+        states_explored = 0
+        found = False
+        found_state = None
+
+        while len(queue) > 0:
+            if found:
+                break
+            state = heapq.heappop(queue)
+            states_explored += 1
+            for movable in state.find_movable_cards():
+                if found:
+                    break
+                for moveto in state.find_move_spaces(movable):
+                    if found:
+                        break
+                    new_state = state.perform_move(movable, moveto[0])
+                    if new_state not in visited:
+                        visited[new_state] = (state, (movable[0], movable[1], moveto[0], moveto[1]))
+                        heapq.heappush(queue, new_state)
+                        if new_state.is_win():
+                            found = True
+                            found_state = new_state
+        path = [visited[found_state]]
         while visited[path[-1][0]] is not None:
             path.append(visited[path[-1][0]])
         return path, states_explored
@@ -215,6 +306,15 @@ if __name__ == "__main__":
             json_content = json.load(open(f"saves/{json_name}"))
             state = State.from_str(json_content)
             game = Game(state)
+            print("DFS")
             res = game.DFS()
             print(f"path len = {len(res[0])}")
             print(f"explored = {res[1]}")
+            print("Priority Queue")
+            res = game.priority_queue()
+            print(f"path len = {len(res[0])}")
+            print(f"explored = {res[1]}")
+            # print("BFS")
+            # res = game.BFS()
+            # print(f"path len = {len(res[0])}")
+            # print(f"explored = {res[1]}")
