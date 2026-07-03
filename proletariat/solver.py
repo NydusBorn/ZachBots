@@ -1,5 +1,4 @@
 import os
-from operator import and_
 
 import numpy as np
 import json

@@ -9,8 +9,6 @@ from proletariat import detection, solver
 enter_game_pos = (800, 1380)
 space_pos = (1900, 480)
 
-pyautogui.PAUSE = 0.1
-
 def enter_game():
     pyautogui.click(enter_game_pos[0], enter_game_pos[1])
     sleep(0.5)
@@ -40,6 +38,7 @@ ver_offset = 20
 
 def play_game():
     screenshot = pyautogui.screenshot()
+    pyautogui.PAUSE = 0.1
     state_str = detection.detect_state(cv2.cvtColor(np.array(screenshot), cv2.COLOR_BGR2RGB))
     starter_state = solver.State.from_str(state_str)
     game_solver = solver.Game(starter_state)
