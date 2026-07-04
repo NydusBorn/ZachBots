@@ -30,12 +30,16 @@ def match_region(sub_img) -> str:
     for name, timg in templates.items():
         result = cv2.matchTemplate(sub_img, timg, cv2.TM_CCOEFF_NORMED)
         _, score, _, _ = cv2.minMaxLoc(result)
+        if name == "ActiveVitae":
+            score += 0.2
+        elif name == "Vitae":
+            score += 0.02
 
         if score > best_score:
             best_score = score
             best_name = name
     
-    if best_score < 0.9:
+    if best_score < 0.83:
         return "?"
     
     return best_name
@@ -72,11 +76,14 @@ if __name__ == "__main__":
             if compare:
                 json_name = filename.replace(".png", ".json")
                 json_content = json.load(open(f"saves/{json_name}"))
-                # for coli in range(columns):
-                #     for rowi in range(rows):
-                #         if json_content[coli][rowi] != state[coli][rowi]:
-                #             print(
-                #                 f"in {filename}: col {coli}, row {rowi} expected {json_content[coli][rowi]} got {state[coli][rowi]}")
+                for rowi in range(rows):
+                    for coli in range(hex_side + min(rowi, rows - 1 - rowi)):
+                        col_num = coli * 2 - min(rowi, rows - 1 - rowi)
+                        if json_content[str(rowi)].get(str(col_num), None) is None and state[rowi].get(col_num, None) is not None:
+                            print(f"unexpected {state[rowi].get(col_num, None)} at row {rowi} col {col_num}")
+                        elif json_content[str(rowi)].get(str(col_num), None) != state[rowi].get(col_num, None):
+                            print(f"expected {json_content[str(rowi)].get(str(col_num), None)} at row {rowi} col {col_num}, received {state[rowi].get(col_num, None)}")
+                        
             if save:
                 json_name = filename.replace(".png", ".json")
                 with open(f"saves/{json_name}", "w") as f:

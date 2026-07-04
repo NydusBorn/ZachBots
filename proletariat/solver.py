@@ -1,6 +1,4 @@
 import os
-
-import numpy as np
 import json
 import heapq
 
@@ -306,15 +304,7 @@ if __name__ == "__main__":
             json_content = json.load(open(f"saves/{json_name}"))
             state = State.from_str(json_content)
             game = Game(state)
-            # print("DFS")
-            # res = game.DFS()
-            # print(f"path len = {len(res[0])}")
-            # print(f"explored = {res[1]}")
             print("Priority Queue")
             res = game.priority_queue()
             print(f"path len = {len(res[0])}")
             print(f"explored = {res[1]}")
-            # print("BFS")
-            # res = game.BFS()
-            # print(f"path len = {len(res[0])}")
-            # print(f"explored = {res[1]}")
