@@ -228,6 +228,7 @@ class Game:
         path = [visited[found_state]]
         while visited[path[-1][0]] is not None:
             path.append(visited[path[-1][0]])
+        path.reverse()
         return path, states_explored
 
     def BFS(self):
@@ -261,6 +262,7 @@ class Game:
         path = [visited[found_state]]
         while visited[path[-1][0]] is not None:
             path.append(visited[path[-1][0]])
+        path.reverse()
         return path, states_explored
 
     def priority_queue(self):

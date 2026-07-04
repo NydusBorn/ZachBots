@@ -199,7 +199,7 @@ class Game:
                     break
                 new_state = state.perform_action(actives[p1], actives[p2] if p2 != -1 else None)
                 if new_state not in visited:
-                    visited[new_state] = (state, (actives[p1][0], actives[p1][1], actives[p2][0], actives[p2][1]))
+                    visited[new_state] = (state, (actives[p1][0], actives[p1][1], actives[p2][0] if p2 != -1 else -999, actives[p2][1] if p2 != -1 else -999))
                     if new_state.is_dead_end():
                         continue
                     queue.append(new_state)
@@ -210,6 +210,7 @@ class Game:
         path = [visited[found_state]]
         while visited[path[-1][0]] is not None:
             path.append(visited[path[-1][0]])
+        path.reverse()
         return path, states_explored
 
 if __name__ == "__main__":
