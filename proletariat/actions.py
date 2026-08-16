@@ -37,8 +37,9 @@ hor_offset = 50
 ver_offset = 20
 
 def play_game():
-    screenshot = pyautogui.screenshot()
     pyautogui.PAUSE = 0.1
+    pyautogui.moveTo(1000,0)
+    screenshot = pyautogui.screenshot()
     state_str = detection.detect_state(cv2.cvtColor(np.array(screenshot), cv2.COLOR_BGR2RGB))
     starter_state = solver.State.from_str(state_str)
     game_solver = solver.Game(starter_state)

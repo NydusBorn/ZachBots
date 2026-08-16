@@ -4,8 +4,12 @@ import threading
 import keyboard
 
 import proletariat.actions
+import sigmars.actions
 
-games = [proletariat.actions.full_loop]
+games = [
+    proletariat.actions.full_loop,
+    sigmars.actions.full_loop,
+]
 
 running = threading.Event()
 

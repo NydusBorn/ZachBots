@@ -107,7 +107,7 @@ class State:
                      any(col[rowi].rank - 1 != col[rowi + 1].rank for rowi in range(4)))):
                 return False
         return True
-    
+
     def win_estimate(self):
         counter = 0
         if self.space is not None:
@@ -124,7 +124,7 @@ class State:
                      any(col[rowi].rank - 1 != col[rowi + 1].rank for rowi in range(4)))):
                 counter -= 1
         return counter
-    
+
     def __lt__(self, other: State):
         return self.win_estimate() > other.win_estimate()
 
@@ -154,6 +154,8 @@ class State:
                 elif (col[rowi].is_suit_card() and col[rowi + 1].is_suit_card() and
                       col[rowi].suit == col[rowi + 1].suit):
                     movable_cards.append((coli, rowi))
+                else:
+                    break
         return movable_cards
 
     def find_move_spaces(self, card_pos: tuple[int, int]) -> list[tuple[int, int]]:
@@ -168,6 +170,8 @@ class State:
             card = self.cards[card_pos[0]][card_pos[1]]
         for coli in range(len(self.cards)):
             col = self.cards[coli]
+            if len(col) == 0 and card_pos[0] >= 0 and card_pos[1] == 0:
+                continue
             if len(col) == 0:
                 a_spaces.append((coli, len(col)))
             elif (card.is_suit_card() and col[-1].is_suit_card() and
@@ -206,7 +210,7 @@ class Game:
         states_explored = 0
         found = False
         found_state = None
-        
+
         while len(queue) > 0:
             if found:
                 break

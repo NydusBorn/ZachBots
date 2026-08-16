@@ -52,7 +52,7 @@ def match_region(sub_img) -> str:
             best_score = score
             best_name = name
 
-    if best_score < 0.6:
+    if best_score < 0.8:
         return "?"
 
     return best_name
@@ -115,7 +115,7 @@ def detect_state(img):
         space = match
     else:
         color_seek = (64,64,64)
-        color_match = img[int(y0), int(x1 - (0.5 * region_width))]
+        color_match = img[int(y0 + (0.5 * region_height)), int(x0 + (0.5 * region_width))]
         diff = np.mean(cv2.absdiff(color_match, color_seek))
         if diff > 40:
             space = "?"
