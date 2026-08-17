@@ -143,13 +143,9 @@ class State:
                 return False
         return True
 
-    def win_estimate(self): # TODO
+    def win_estimate(self):
         counter = 0
-        # for suitc in self.suits:
-        #     if suitc is not None:
-        #         counter += suitc.rank
         last_card = None
-        # counter -= len(self.stack)
         for col in self.columns:
             stack_len = 0
             for rowi in reversed(range(len(col))):
