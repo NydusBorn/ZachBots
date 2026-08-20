@@ -10,3 +10,9 @@ Bot difficulties:
 - sawayama:
   - detection: requires high-ish precision
   - solver: this one does not have reliable information from the start, since the stack contains 24 cards in unknown order, and the actual suites for the cards are also occluded when they are in columns. This is solved by using a win estimate that looks at how "orderly" the cards are layed out, and tries to maximise that "order". Since the suites are unknown and the stack exists, the solver takes a screenshot after every move, since the cards are put out of the game when they are not needed any longer
+- cribbage:
+  - detection: one of the simplest
+  - solver: since the main purpose is to attain points, the priority is easy to set up. There isnt much room for error though, with the solver feasibly producing 65 points, of 61 required
+- cluj:
+  - detection: simplest one of them
+  - solver: generally same difficulty as proletariat
