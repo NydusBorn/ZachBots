@@ -1,6 +1,6 @@
 This project provides a python bot to solve various games from zachtronics solitaire collection.
 
-Bot difficulties:
+Bot difficulties (in order of completion):
 - proletariat:
   - detection: relatively simple
   - solver: does require a priority queue in order to give close to optimal paths (the optimal path is somewhere around 30-35 moves, the solver produces 40-50), since simple DFS produces paths with lengths of 150+
@@ -19,3 +19,6 @@ Bot difficulties:
 - kabufuda:
   - detection: simple enough
   - solver: simplest conditions (since there are no ranks), and generally easier than proletariat
+- shenzhen:
+  - detection: uses color matching
+  - solver: unlike sawayama, shenzhen has both convergence (cards that can be moved off the field since they have no use are automatically moved), and reliable information from the start, so unlike sawayama it allows to introduce wait action during solving, rather than using pure heuristics and taking screenshots at every action
