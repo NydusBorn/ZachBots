@@ -22,3 +22,6 @@ Bot difficulties (in order of completion):
 - shenzhen:
   - detection: uses color matching
   - solver: unlike sawayama, shenzhen has both convergence (cards that can be moved off the field since they have no use are automatically moved), and reliable information from the start, so unlike sawayama it allows to introduce wait action during solving, rather than using pure heuristics and taking screenshots at every action
+- fortune:
+  - detection: yo dawg, i heard you like templates, so here's 70 templates
+  - solver: surprisingly easy, albeit the paths are pretty long
