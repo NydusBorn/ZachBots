@@ -1,4 +1,4 @@
-![demo](demo.webm)
+[demo video](https://raw.githubusercontent.com/NydusBorn/ZachBots/master/demo.webm)
 
 This project provides a python bot to solve various games from zachtronics solitaire collection.
 
