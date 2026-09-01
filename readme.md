@@ -1,6 +1,4 @@
-<video autoplay loop playsinline controls width="100%">
-  <source src="https://raw.githubusercontent.com/NydusBorn/ZachBots/master/demo.webm" type="video/webm">
-</video>
+![demo](demo.webm)
 
 This project provides a python bot to solve various games from zachtronics solitaire collection.
 
