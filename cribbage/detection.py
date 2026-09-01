@@ -20,7 +20,7 @@ cols = 4
 
 templates = {}
 
-template_dir = "./templates" if os.path.exists("./templates") else "./sawayama/templates/"
+template_dir = "./templates" if os.path.exists("./templates") else "./cribbage/templates/"
 
 for f in os.listdir(template_dir):
     templates[f.replace(".png", "")] = cv2.imread(f"{template_dir}/{f}", cv2.IMREAD_COLOR)

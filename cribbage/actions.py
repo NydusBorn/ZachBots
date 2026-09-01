@@ -47,7 +47,7 @@ def play_game():
     for _, action in path:
         if action[0] == -1:
             pyautogui.moveTo(new_stack_pos[0] + hor_offset,
-                new_stack_pos[1] + (action[1] + 2) * detection.space_between_rows)
+                new_stack_pos[1] + 10 + (action[1] + 2) * (detection.space_between_rows + 2))
         else:
             pyautogui.moveTo(detection.left_edge + hor_offset + action[0] * detection.space_between_columns,
                 detection.top_edge + ver_offset + action[1] * detection.space_between_rows)

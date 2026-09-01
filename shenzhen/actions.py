@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from shenzhen import detection, solver
 
-enter_game_pos = (800, 1380)
+enter_game_pos = (2100, 1380)
 
 top_cells = 260
 left_cells = 540

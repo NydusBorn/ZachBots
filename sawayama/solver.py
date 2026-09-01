@@ -153,15 +153,21 @@ class State:
                 if last_card is None:
                     last_card = col[rowi]
                     counter += 13 - last_card.rank
+                    stack_len += 1
+                    if last_card.rank == 1:
+                        counter += 20
                     continue
                 if col[rowi].rank == last_card.rank + 1 and col[rowi].suit != last_card.suit:
                     counter += 13 - col[rowi].rank
+                    stack_len += 1
                     last_card = col[rowi]
                 else:
-                    stack_len -= 1
-                    counter += stack_len - len(col)
                     break
+            stack_len -= 1
+            counter += stack_len
             last_card = None
+        if len(self.stack) > 0 and self.stack[-1].rank == 1:
+            counter += 20
         return counter
 
     def __lt__(self, other: State):

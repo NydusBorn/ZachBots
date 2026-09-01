@@ -8,7 +8,7 @@ import cv2
 from proletariat.detection import region_width
 from sigmars import detection, solver
 
-enter_game_pos = (800, 1380)
+enter_game_pos = (500, 1380)
 space_pos = (1900, 480)
 
 

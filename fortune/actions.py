@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from fortune import detection, solver
 
-enter_game_pos = (800, 1380)
+enter_game_pos = (2400, 1380)
 
 top_blocker = 320
 left_blocker = 1970

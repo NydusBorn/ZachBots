@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from kabufuda import detection, solver
 
-enter_game_pos = (800, 1380)
+enter_game_pos = (1800, 1380)
 diff_sel_pos = (1500,1000)
 
 def enter_game():

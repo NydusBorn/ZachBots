@@ -27,7 +27,7 @@ space_between_rows = 40
 
 match_slack = 10
 
-rows = 15
+rows = 20
 cols = 7
 stack_cols = 24
 suit_count = 4

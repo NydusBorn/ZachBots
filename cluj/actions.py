@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from cluj import detection, solver
 
-enter_game_pos = (800, 1380)
+enter_game_pos = (1440, 1380)
 
 def enter_game():
     pyautogui.click(enter_game_pos[0], enter_game_pos[1])

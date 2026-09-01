@@ -21,7 +21,7 @@ cols = 11
 templates = {}
 
 template_dir = (
-    "./templates" if os.path.exists("./templates") else "./sawayama/templates/"
+    "./templates" if os.path.exists("./templates") else "./fortune/templates/"
 )
 
 for f in os.listdir(template_dir):

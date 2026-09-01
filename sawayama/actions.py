@@ -80,7 +80,9 @@ def play_game():
         scr = pyautogui.screenshot()
         n_str = detection.detect_state(cv2.cvtColor(np.array(scr), cv2.COLOR_BGR2RGB))
         n_state = solver.State.from_str(n_str)
-        if n_state.space == 0:
+        test_game = solver.Game(n_state)
+        res_test = test_game.priority_queue()[0]
+        if n_state.space == 0 and (len(res_test) == 0 or n_state.win_estimate() == res_test[-1][0].win_estimate()):
             pyautogui.moveTo(detection.left_edge_space + hor_offset, detection.top_edge_space)
             pyautogui.click()
             sleep(2)
